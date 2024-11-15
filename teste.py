@@ -140,21 +140,35 @@ while True:
 
     opcao = input("Escolha uma opção: ")
     
-    if opcao == '5':
-        cinco()
-        break
+    match opcao:
 
-    elif opcao == '1':
-        um()
+        case '1':
+            um()
+        case '2':
+            dois()
+        case '3':
+            tres()
+        case '4':
+            quatro()
+        case '5':
+            cinco()
+            break
+        case _:
+            print("Opção inválida. Tente novamente.")
 
-    elif opcao == '2':
-        dois()
+    # if opcao == '5':
+    #     cinco()
+    #     break
 
-    elif opcao == '3':
-        tres()
+    # elif opcao == '1':
+    #     um()
 
-    elif opcao == '4':
-        quatro()
+    # elif opcao == '2':
+    #     dois()
 
-    else:
-        print("Opção inválida. Tente novamente.")
+    # elif opcao == '3':
+    #     tres()
+
+    # elif opcao == '4':
+    #     quatro()
+
