@@ -15,8 +15,12 @@ def carregar_treinos():
 
 # Função para salvar os treinos no arquivo
 def salvar_treinos(treinos):
+    if not isinstance(treinos, list):
+        print("Erro: os treinos devem ser uma lista.")
+        return
     with open(arquivo_treino, "w", encoding="utf-8") as file:
-        json.dump(treinos, file, ensure_ascii=False, indent=4)  # Salvar treinos em formato JSON
+        json.dump(treinos, file, ensure_ascii=False, indent=4)
+
 
 # Função para formatar a data
 def data_formatada():
@@ -68,18 +72,27 @@ while True:
                 "clima": clima
             })
         else:
-            treinos.append({"nome": treino})
-        
+            treinos.append({
+                "nome": treino,
+                "data": "N/A",
+                "distancia": 0,
+                "localizacao": "N/A",
+                "clima": "N/A"
+            })
+
         salvar_treinos(treinos)
         print("Treino salvo com sucesso.")
 
     elif opcao == '2':
-            if len(treinos) == 0:
-                print("Não existe treinos ainda.")
-            else:
-                print("\nLista de treinos: ")
-                for i, treino in enumerate(treinos):
-                 print(f"{i+1}º treino: {treino}")
+        if len(treinos) == 0:
+            print("Não há treinos cadastrados.")
+        else:
+            print("\nTreinos cadastrados:")
+            for i, treino in enumerate(treinos, 1):
+                print(f"\nTreino {i}:")
+                for chave, valor in treino.items():
+                    print(f"{chave.capitalize()}: {valor}")
+
 
     elif opcao == '3':
         print("\nTreinos disponíveis:")
@@ -91,14 +104,24 @@ while True:
 
             try:
                 indice = int(input("Escolha o número do treino que deseja atualizar: ")) - 1
-                if 0 <= indice < len(treinos):
+                escolha_modificação = int(input("O que você deseja atualizar?\n1. Nome\n2. Data\n3. Distância\n4. Localização\n5. Clima\nEscolha uma opção: "))
+                if escolha_modificação == 1:
                     treinos[indice]["nome"] = input("Digite o novo nome do treino: ")
-                    salvar_treinos(treinos)
-                    print("Treino atualizado com sucesso.")
+                elif escolha_modificação == 2:
+                    treinos[indice]["data"] = input("Digite a nova data do treino: ")
+                elif escolha_modificação == 3:
+                    treinos[indice]["distancia"] = float(input("Digite a nova distância do treino (em km): "))
+                elif escolha_modificação == 4:
+                    treinos[indice]["localizacao"] = input("Digite a nova localização do treino: ")
+                elif escolha_modificação == 5:
+                    treinos[indice]["clima"] = input("Digite as novas condições climáticas do treino: ")
                 else:
-                    print("Número inválido.")
+                    print("Opção inválida.")
+                salvar_treinos(treinos)
+                print("Treino atualizado com sucesso.")
             except ValueError:
                 print("Entrada inválida. Tente novamente.")
+
 
     elif opcao == '4':
         print("\nTreinos disponíveis:")
@@ -109,13 +132,13 @@ while True:
                 print(f"{i} -> {treino['nome']}")
 
             try:
-                indice = int(input("Escolha o número do treino que deseja deletar: ")) - 1
                 if 0 <= indice < len(treinos):
                     treino_removido = treinos.pop(indice)
                     salvar_treinos(treinos)
                     print(f"Treino '{treino_removido['nome']}' foi deletado com sucesso.")
                 else:
                     print("Número inválido.")
+
             except ValueError:
                 print("Entrada inválida. Tente novamente.")
 

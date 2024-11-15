@@ -1,6 +1,6 @@
 [
     {
-        "nome": "treino",
+        "nome": "Augusto",
         "data": "02/10/2022",
         "distancia": 5.0,
         "localizacao": "recife",
