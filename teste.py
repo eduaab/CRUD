@@ -212,7 +212,6 @@ while True:
 
     opcao = input("Escolha uma opção: ")
     
-<<<<<<< HEAD
     if opcao == '9':
         print("Saindo do programa. Até mais!")
         break
@@ -231,42 +230,3 @@ while True:
 
     elif opcao == '6':
         seis()
-
-    # Outras opções do menu podem ser adicionadas conforme necessário...
-
-    else:
-        print("Opção inválida. Tente novamente.")
-=======
-    match opcao:
-
-        case '1':
-            um()
-        case '2':
-            dois()
-        case '3':
-            tres()
-        case '4':
-            quatro()
-        case '5':
-            cinco()
-            break
-        case _:
-            print("Opção inválida. Tente novamente.")
-
-    # if opcao == '5':
-    #     cinco()
-    #     break
-
-    # elif opcao == '1':
-    #     um()
-
-    # elif opcao == '2':
-    #     dois()
-
-    # elif opcao == '3':
-    #     tres()
-
-    # elif opcao == '4':
-    #     quatro()
-
->>>>>>> ecb5065bb901a8ff7a42e8c72b56610d5f0029e0
