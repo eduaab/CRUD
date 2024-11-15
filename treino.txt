@@ -1,0 +1,19 @@
+[
+    {
+        "nome": "treino",
+        "data": "02/10/2022",
+        "distancia": 5.0,
+        "localizacao": "recife",
+        "clima": "chuvoso"
+    },
+    {
+        "nome": "peito"
+    },
+    {
+        "nome": "brendalu",
+        "data": "15/11/2024",
+        "distancia": 500.0,
+        "localizacao": "janga",
+        "clima": "chuvoso"
+    }
+]
