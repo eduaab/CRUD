@@ -132,15 +132,16 @@ while True:
                 print(f"{i} -> {treino['nome']}")
 
             try:
-                if 0 <= indice < len(treinos):
+                indice = int(input("Escolha o número do treino que deseja deletar: ")) - 1
+                if 0 <= indice < len(treinos):  # Verifica se o índice está no intervalo válido
                     treino_removido = treinos.pop(indice)
                     salvar_treinos(treinos)
                     print(f"Treino '{treino_removido['nome']}' foi deletado com sucesso.")
                 else:
-                    print("Número inválido.")
-
+                    print("Número inválido. Nenhum treino foi deletado.")
             except ValueError:
-                print("Entrada inválida. Tente novamente.")
+                print("Entrada inválida. Por favor, insira um número válido.")
+
 
     else:
         print("Opção inválida. Tente novamente.")
