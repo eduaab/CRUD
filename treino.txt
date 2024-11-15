@@ -1,16 +1,10 @@
 [
     {
-        "nome": "Heloisa",
-        "data": "19/01/2024",
-        "distancia": 5.0,
+        "nome": "peito",
+        "data": "03/10/2024",
+        "distancia": 3.0,
+        "tempo": 60,
         "localizacao": "recife",
-        "clima": "chuvoso"
-    },
-    {
-        "nome": "brendalu",
-        "data": "15/11/2024",
-        "distancia": 500.0,
-        "localizacao": "janga",
         "clima": "chuvoso"
     }
 ]
