@@ -30,8 +30,14 @@ def data_formatada():
             print("Entrada inválida. Tente novamente.")
 
 def dados_treino():
-    distancia = float(input("Insira a distância percorrida (em km): "))
-    tempo = int(input("Insira o tempo total (em minutos): "))
+    try:
+        distancia = float(input("Insira a distância percorrida (em km): "))
+    except ValueError:
+        print("Insira um valor válido")
+    try:
+        tempo = int(input("Insira o tempo total (em minutos): "))
+    except TypeError:
+        print("Insira apenas números")
     localizacao = input("Insira a localização: ")
     clima = input("Insira as condições climáticas: ")
     return distancia, tempo, localizacao, clima
@@ -254,9 +260,11 @@ def sete():
     pass
 
 def oito():
-
-    peso = float(input("Digite o seu peso em Kg"))
-    altura = float(input("Digite sua altura em metros"))
+    try:
+        peso = float(input("Digite o seu peso em Kg"))
+        altura = float(input("Digite sua altura em metros"))
+    except ValueError:
+        print("Entrada inváilida. Por favor, insira um número válido.")
 
     treinos = {
         "abaixo_peso": [
@@ -297,7 +305,10 @@ def oito():
         file.write(f"Peso: {peso:.2f} Kg, Altura: {altura:.2f} m, IMC: {imc:.2f}, Estado: {estado}\n")
 
     while True:
-        escolha = str(input("Deseja ver sugestões de treino e dieta? (s/n): ")).strip().lower()
+        try:
+            escolha = str(input("Deseja ver sugestões de treino e dieta? (s/n): ")).strip().lower()
+        except TypeError:
+            print("Por favor, responda apenas com s ou n.")
         if escolha == 's':
             print("\nSugestões de treino:")
             for treino in treinos[estado]:
