@@ -1,1 +1,4 @@
 Peso: 50.00 Kg, Altura: 1.70 m, IMC: 17.30, Estado: abaixo_peso
+Peso: 50.00 Kg, Altura: 1.70 m, IMC: 17.30, Estado: abaixo_peso
+Peso: 50.00 Kg, Altura: 1.70 m, IMC: 17.30, Estado: abaixo_peso
+Peso: 50.00 Kg, Altura: 1.70 m, IMC: 17.30, Estado: abaixo_peso

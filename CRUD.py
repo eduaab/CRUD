@@ -1,24 +1,28 @@
 import os
-import json
+import csv
 import random
 
-arquivo_treino = "treino.json"
+arquivo_treino = "treino.csv"
 
 def carregar_treinos():
     if os.path.exists(arquivo_treino):
         with open(arquivo_treino, "r", encoding="utf-8") as file:
-            try:
-                return json.load(file)
-            except json.JSONDecodeError:
-                return [] 
+            reader = csv.DictReader(file)
+            treinos = []
+            for row in reader:
+                row["distancia"] = float(row["distancia"])  # Converte para float
+                row["tempo"] = int(row["tempo"])  # Converte para inteiro
+                treinos.append(row)
+            return treinos
     return []
 
+# Salvar treinos no arquivo CSV
 def salvar_treinos(treinos):
-    if not isinstance(treinos, list):
-        print("Erro: os treinos devem ser uma lista.")
-        return
-    with open(arquivo_treino, "w", encoding="utf-8") as file:
-        json.dump(treinos, file, ensure_ascii=False, indent=4)
+    with open(arquivo_treino, "w", newline="", encoding="utf-8") as file:
+        fieldnames = ["nome", "data", "distancia", "tempo", "localizacao", "clima"]
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(treinos)
 
 def data_formatada():
     while True:
@@ -31,43 +35,45 @@ def data_formatada():
             print("Entrada inválida. Tente novamente.")
 
 def dados_treino():
-    try:
-        distancia = float(input("Insira a distância percorrida (em km): "))
-    except ValueError:
-        print("Insira um valor válido")
-    try:
-        tempo = int(input("Insira o tempo total (em minutos): "))
-    except TypeError:
-        print("Insira apenas números")
+    while True:
+        try:
+            distancia = float(input("Insira a distância percorrida (em km): "))
+            tempo = int(input("Insira o tempo total (em minutos): "))
+            break
+        except ValueError:
+            print("Entrada inválida. Por favor, insira números válidos.")
+    
     localizacao = input("Insira a localização: ")
     clima = input("Insira as condições climáticas: ")
     return distancia, tempo, localizacao, clima
 
 
+arquivo_metas = "metas.csv"
 
+# Salvar metas no arquivo CSV
+def salvar_metas(metas):
+    with open(arquivo_metas, "w", newline="", encoding="utf-8") as file:
+        fieldnames = ["tipo", "valor", "unidade"]
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(metas)
 
-arquivo_metas = "metas.json"
-
-def salvar_metas_json(metas):
-    try:
-        with open(arquivo_metas, "w", encoding="utf-8") as file:
-            json.dump(metas, file, indent=4)
-        print("Metas salvas com sucesso.")
-    except Exception as e:
-        print("Erro ao salvar metas:", e)
-
-def carregar_metas_json():
+# Carregar metas do arquivo CSV
+def carregar_metas():
     if os.path.exists(arquivo_metas):
-        try:
-            with open(arquivo_metas, "r", encoding="utf-8") as file:
-                return json.load(file)
-        except Exception as e:
-            print("Erro ao carregar metas:", e)
-    return [] 
+        with open(arquivo_metas, "r", encoding="utf-8") as file:
+            reader = csv.DictReader(file)
+            metas = []
+            for row in reader:
+                row["valor"] = float(row["valor"])  # Converte para float
+                metas.append(row)
+            return metas
+    return []
 
 def verificar_metas_atingidas(metas, treinos):
-    distancia_total = sum(treino.get("distancia", 0) for treino in treinos)
-    tempo_total = sum(treino.get("tempo", 0) for treino in treinos)
+    distancia_total = sum(float(treino["distancia"]) for treino in treinos)
+    tempo_total = sum(int(treino["tempo"]) for treino in treinos)
+
 
     metas_concluidas = []
     for meta in metas[:]:
@@ -81,7 +87,7 @@ def verificar_metas_atingidas(metas, treinos):
             metas.remove(meta)
 
     if metas_concluidas:
-        salvar_metas_json(metas)
+        salvar_metas(metas)
         print("\nAs seguintes metas foram concluídas e removidas:")
         for meta in metas_concluidas:
             print(f"- {meta['tipo']}: {meta['valor']} {meta['unidade']}")
@@ -132,55 +138,65 @@ def tres():
     print("\nTreinos disponíveis:")
     if not treinos:
         print("Nenhum treino para atualizar.")
-    else:
-        for i, treino in enumerate(treinos, 1):
-            print(f"{i} -> {treino['nome']}")
+        return
 
-        try:
-            indice = int(input("Escolha o número do treino que deseja atualizar: ")) - 1
-            escolha_modificação = int(input("O que você deseja atualizar?\n1. Nome\n2. Data\n3. Distância\n4. Localização\n5. Clima\nEscolha uma opção: "))
-            if escolha_modificação == 1:
+    for i, treino in enumerate(treinos, 1):
+        print(f"{i} -> {treino['nome']}")
+
+    try:
+        indice = int(input("Escolha o número do treino que deseja atualizar: ")) - 1
+        if 0 <= indice < len(treinos):
+            escolha_modificacao = int(input(
+                "O que você deseja atualizar?\n"
+                "1. Nome\n2. Data\n3. Distância\n4. Localização\n5. Clima\nEscolha uma opção: "
+            ))
+            if escolha_modificacao == 1:
                 treinos[indice]["nome"] = input("Digite o novo nome do treino: ")
-            elif escolha_modificação == 2:
-                treinos[indice]["data"] = input("Digite a nova data do treino: ")
-            elif escolha_modificação == 3:
+            elif escolha_modificacao == 2:
+                treinos[indice]["data"] = data_formatada()
+            elif escolha_modificacao == 3:
                 treinos[indice]["distancia"] = float(input("Digite a nova distância do treino (em km): "))
-            elif escolha_modificação == 4:
+            elif escolha_modificacao == 4:
                 treinos[indice]["localizacao"] = input("Digite a nova localização do treino: ")
-            elif escolha_modificação == 5:
+            elif escolha_modificacao == 5:
                 treinos[indice]["clima"] = input("Digite as novas condições climáticas do treino: ")
             else:
                 print("Opção inválida.")
+                return
+
             salvar_treinos(treinos)
             print("Treino atualizado com sucesso.")
-        except ValueError:
-            print("Entrada inválida. Tente novamente.")
+        else:
+            print("Índice inválido.")
+    except ValueError:
+        print("Entrada inválida. Tente novamente.")
 
 def quatro():
     print("\nTreinos disponíveis:")
     if not treinos:
         print("Nenhum treino para deletar.")
-    else:
-        for i, treino in enumerate(treinos, 1):
-            print(f"{i} -> {treino['nome']}")
+        return
 
-        try:
-            indice = int(input("Escolha o número do treino que deseja deletar: ")) - 1
-            if 0 <= indice < len(treinos):  # Verifica se o índice está no intervalo válido
-                treino_removido = treinos.pop(indice)
-                salvar_treinos(treinos)
-                print(f"Treino '{treino_removido['nome']}' foi deletado com sucesso.")
-            else:
-                print("Número inválido. Nenhum treino foi deletado.")
-        except ValueError:
-            print("Entrada inválida. Por favor, insira um número válido.")
+    for i, treino in enumerate(treinos, 1):
+        print(f"{i} -> {treino['nome']}")
+
+    try:
+        indice = int(input("Escolha o número do treino que deseja deletar: ")) - 1
+        if 0 <= indice < len(treinos):
+            treino_removido = treinos.pop(indice)
+            salvar_treinos(treinos)
+            print(f"Treino '{treino_removido['nome']}' foi deletado com sucesso.")
+        else:
+            print("Número inválido.")
+    except ValueError:
+        print("Entrada inválida. Por favor, insira um número válido.")
 
 
 def cinco():
     pass
 
 def seis():
-    metas = carregar_metas_json()
+    metas = carregar_metas()
 
     while True:
         print("\nMENU de Metas e Desafios:")
@@ -210,7 +226,7 @@ def seis():
                 print("Opção inválida. Tente novamente.")
                 continue
             
-            salvar_metas_json(metas)
+            salvar_metas(metas)
 
         elif opcao_metas == "2":
             verificar_metas_atingidas(metas, treinos)
@@ -219,8 +235,9 @@ def seis():
                 for meta in metas:
                     print(f"{meta['tipo']}: {meta['valor']} {meta['unidade']}")
                 
-                distancia_total = sum(treino["distancia"] for treino in treinos)
-                tempo_total = sum(treino.get("tempo", 0) for treino in treinos)
+                distancia_total = sum(float(treino["distancia"]) for treino in treinos)
+                tempo_total = sum(int(treino["tempo"]) for treino in treinos)
+
                 
                 print("\nSeu progresso:")
                 print(f"Distância total já percorrida: {distancia_total} km")
@@ -243,7 +260,7 @@ def seis():
                         confirmacao = input(f"Tem certeza que deseja deletar a meta '{meta_removida['tipo']} ({meta_removida['valor']} {meta_removida['unidade']})'? (s/n): ").strip().lower()
                         if confirmacao == 's':
                             metas.pop(indice)
-                            salvar_metas_json(metas)
+                            salvar_metas(metas)
                             print("Meta deletada com sucesso.")
                         else:
                             print("Exclusão cancelada.")
@@ -268,33 +285,40 @@ def sete():
     else:
         print("Não há treinos cadastrados para sugerir. Cadastre alguns treinos primeiro.")
 
+def dieta():
+    """Carrega as sugestões de treino ou dieta de um arquivo."""
+    sugestoes = {}
+    try:
+        with open("oito.txt", "r", encoding="utf8") as file:
+            conteudo = file.read()
+            categorias = conteudo.strip().split("\n\n")
+            for categoria in categorias:
+                linhas = categoria.split("\n")
+                chave = linhas[0].replace(":", "").strip()
+                sugestoes[chave] = linhas[1:]
+        return sugestoes
+    except FileNotFoundError:
+        print("Erro: O arquivo 'oito.txt' não foi encontrado.")
+        return {}
+    except Exception as e:
+        print(f"Erro ao carregar as sugestões: {e}")
+        return {}
 
 def oito():
     try:
         peso = float(input("Digite o seu peso em Kg: "))
         altura = float(input("Digite sua altura em metros: "))
     except ValueError:
-        print("Entrada inváilida. Por favor, insira um número válido.")
+        print("Entrada inválida. Por favor, insira um número válido.")
+        return
 
-    treinos = {
-        "abaixo_peso": [
-            "Treino de força: Supino, agachamento com peso leve e levantamento terra (3 séries de 12 repetições).",
-            "Cardio leve: Caminhada moderada por 20 minutos, 3 vezes por semana."
-        ],
-        "peso_normal": [
-            "Treino funcional: Circuito com agachamentos, flexões, burpees e abdominais.",
-            "Cardio: Corrida leve por 30 minutos, 3 vezes por semana."
-        ],
-        "sobrepeso": [
-            "Treino de queima: Caminhada rápida ou esteira por 40 minutos, 5 vezes por semana.",
-            "Resistência: Treinos de força com elásticos e pesos leves (2 séries de 15 repetições)."
-        ],
-        "obesidade": [
-            "Baixo impacto: Caminhada por 30 minutos diários, natação ou bicicleta ergométrica leve.",
-            "Treino funcional leve: Movimentos básicos sem pesos (agachamentos assistidos, abdominais leves)."
-        ]
-    }
-    imc = peso/(altura**2)
+    sugestoes = dieta()
+
+    if not sugestoes:
+        return
+
+
+    imc = peso / (altura ** 2)
     if imc < 18.5:
         print("Você está abaixo do peso.")
         estado = "abaixo_peso"
@@ -311,23 +335,27 @@ def oito():
         print("Não conseguimos verificar seu IMC.")
         return
 
-    with open("funcionalidade.txt", "a", encoding = "utf8") as file:
+    print(f"Seu IMC é: {imc:.2f}")
+    
+    with open("funcionalidade.txt", "a", encoding="utf8") as file:
         file.write(f"Peso: {peso:.2f} Kg, Altura: {altura:.2f} m, IMC: {imc:.2f}, Estado: {estado}\n")
 
     while True:
-        try:
-            escolha = str(input("Deseja ver sugestões de treino e dieta? (s/n): ")).strip().lower()
-        except TypeError:
-            print("Por favor, responda apenas com s ou n.")
+        escolha = input("Deseja ver sugestões de treino e dieta? (s/n): ").strip().lower()
         if escolha == 's':
-            print("\nSugestões de treino:")
-            for treino in treinos[estado]:
-                print(f"- {treino}")
+            if estado in sugestoes:
+                print("\nSugestões para sua categoria:")
+                for item in sugestoes[estado]:
+                    print(f"- {item}")
+                    
+            else:
+                print("Não foi possível encontrar sugestões para a sua categoria.")
         elif escolha == 'n':
             print("Ok, voltando ao menu principal...")
             break
         else:
             print("Opção inválida. Digite 's' para sim ou 'n' para não.")
+
 
 def nove():
     print("Saindo do programa. Até mais!")

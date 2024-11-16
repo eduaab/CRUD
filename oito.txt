@@ -1,0 +1,62 @@
+abaixo_peso:
+Objetivo: Ganhar peso de forma saudável com massa muscular e energia equilibrada.
+Dieta sugerida:
+Café da manhã: Pão integral com ovos, queijo, abacate, e um copo de suco natural ou leite integral.
+Lanches: Frutas secas (como damasco ou uvas-passas), nozes, castanhas, e iogurte integral.
+Almoço e jantar:
+Fontes de proteína: Frango, peixe, carne magra, ovos ou tofu.
+Carboidratos: Arroz integral, batata-doce ou massas integrais.
+Vegetais ricos em nutrientes: Brócolis, cenoura, espinafre.
+Gorduras saudáveis: Azeite de oliva, abacate ou óleo de coco.
+Ceia: Mingau de aveia com frutas e mel.
+Treino sugerido:
+Treinos de resistência com pesos leves a moderados.
+Exercícios de corpo inteiro como agachamentos, levantamento terra e flexões para estimular ganho muscular.
+Sessões de 30 a 45 minutos, 3 a 4 vezes por semana.
+
+peso_normal:
+Objetivo: Manter a saúde, condicionamento físico e equilíbrio nutricional.
+Dieta sugerida:
+Café da manhã: Pão integral ou tapioca com queijo cottage, uma fruta (banana ou maçã), e chá ou café sem açúcar.
+Lanches: Iogurte natural com granola ou frutas frescas.
+Almoço e jantar:
+Fontes de proteína: Frango grelhado, peixe ou leguminosas (feijão, lentilha).
+Carboidratos: Quinoa, batata-doce ou arroz integral.
+Saladas variadas com azeite de oliva e limão.
+Ceia: Uma fruta pequena ou um copo de leite desnatado.
+Treino sugerido:
+Treinos combinados: Alternar entre treinos cardiovasculares (corrida leve, ciclismo) e exercícios de força (musculação ou treinos funcionais).
+Yoga ou pilates para melhorar flexibilidade e reduzir o estresse.
+Sessões de 45 a 60 minutos, 4 a 5 vezes por semana.
+
+sobrepeso:
+Objetivo: Reduzir o peso corporal com uma dieta hipocalórica e exercícios de baixa a moderada intensidade.
+Dieta sugerida:
+Café da manhã: Aveia com leite desnatado, sementes de chia, e frutas vermelhas.
+Lanches: Uma fruta fresca (maçã, pera ou laranja) ou castanhas em pequenas quantidades.
+Almoço e jantar:
+Fontes de proteína magra: Frango, peixe ou ovos.
+Carboidratos integrais: Arroz integral, quinoa ou legumes (lentilha, grão-de-bico).
+Saladas e vegetais cozidos ou crus.
+Evitar: Alimentos ultraprocessados, açúcar refinado e gorduras saturadas em excesso.
+Ceia: Chá de camomila ou hortelã e uma torrada integral.
+Treino sugerido:
+Atividades cardiovasculares de baixo impacto: Caminhada rápida, bicicleta ergométrica, ou natação.
+Exercícios funcionais leves com ênfase no core e na postura.
+Início com 30 minutos de atividade, 3 vezes por semana, aumentando progressivamente.
+
+obesidade:
+Objetivo: Reduzir o peso corporal gradualmente, com foco na saúde geral e prevenção de lesões.
+Dieta sugerida:
+Café da manhã: Smoothie com leite desnatado, banana, espinafre, e aveia.
+Lanches: Palitos de cenoura com homus ou uma fruta pequena.
+Almoço e jantar:
+Proteínas magras: Frango, peixe ou tofu.
+Carboidratos com baixo índice glicêmico: Batata-doce, quinoa ou legumes.
+Vegetais crus ou cozidos no vapor.
+Ceia: Chá sem açúcar ou uma pequena porção de frutas frescas.
+Evitar: Bebidas açucaradas, frituras e alimentos processados.
+Treino sugerido:
+Atividades de baixo impacto: Caminhada, hidroginástica, ou bicicleta estática.
+Alongamentos e exercícios leves para melhorar a mobilidade.
+Começar com 15 a 20 minutos diários e aumentar conforme o progresso.
