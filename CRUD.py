@@ -311,7 +311,7 @@ def oito():
         print("Não conseguimos verificar seu IMC.")
         return
 
-    with open("funcionalidade.json", "a", encoding = "utf8") as file:
+    with open("funcionalidade.txt", "a", encoding = "utf8") as file:
         file.write(f"Peso: {peso:.2f} Kg, Altura: {altura:.2f} m, IMC: {imc:.2f}, Estado: {estado}\n")
 
     while True:
