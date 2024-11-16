@@ -268,33 +268,40 @@ def sete():
     else:
         print("Não há treinos cadastrados para sugerir. Cadastre alguns treinos primeiro.")
 
+def dieta():
+    """Carrega as sugestões de treino ou dieta de um arquivo."""
+    sugestoes = {}
+    try:
+        with open("oito.txt", "r", encoding="utf8") as file:
+            conteudo = file.read()
+            categorias = conteudo.strip().split("\n\n")
+            for categoria in categorias:
+                linhas = categoria.split("\n")
+                chave = linhas[0].replace(":", "").strip()
+                sugestoes[chave] = linhas[1:]
+        return sugestoes
+    except FileNotFoundError:
+        print("Erro: O arquivo 'oito.txt' não foi encontrado.")
+        return {}
+    except Exception as e:
+        print(f"Erro ao carregar as sugestões: {e}")
+        return {}
 
 def oito():
     try:
         peso = float(input("Digite o seu peso em Kg: "))
         altura = float(input("Digite sua altura em metros: "))
     except ValueError:
-        print("Entrada inváilida. Por favor, insira um número válido.")
+        print("Entrada inválida. Por favor, insira um número válido.")
+        return
 
-    treinos = {
-        "abaixo_peso": [
-            "Treino de força: Supino, agachamento com peso leve e levantamento terra (3 séries de 12 repetições).",
-            "Cardio leve: Caminhada moderada por 20 minutos, 3 vezes por semana."
-        ],
-        "peso_normal": [
-            "Treino funcional: Circuito com agachamentos, flexões, burpees e abdominais.",
-            "Cardio: Corrida leve por 30 minutos, 3 vezes por semana."
-        ],
-        "sobrepeso": [
-            "Treino de queima: Caminhada rápida ou esteira por 40 minutos, 5 vezes por semana.",
-            "Resistência: Treinos de força com elásticos e pesos leves (2 séries de 15 repetições)."
-        ],
-        "obesidade": [
-            "Baixo impacto: Caminhada por 30 minutos diários, natação ou bicicleta ergométrica leve.",
-            "Treino funcional leve: Movimentos básicos sem pesos (agachamentos assistidos, abdominais leves)."
-        ]
-    }
-    imc = peso/(altura**2)
+    sugestoes = dieta()
+
+    if not sugestoes:
+        return
+
+
+    imc = peso / (altura ** 2)
     if imc < 18.5:
         print("Você está abaixo do peso.")
         estado = "abaixo_peso"
@@ -311,23 +318,27 @@ def oito():
         print("Não conseguimos verificar seu IMC.")
         return
 
-    with open("funcionalidade.txt", "a", encoding = "utf8") as file:
+    print(f"Seu IMC é: {imc:.2f}")
+    
+    with open("funcionalidade.txt", "a", encoding="utf8") as file:
         file.write(f"Peso: {peso:.2f} Kg, Altura: {altura:.2f} m, IMC: {imc:.2f}, Estado: {estado}\n")
 
     while True:
-        try:
-            escolha = str(input("Deseja ver sugestões de treino e dieta? (s/n): ")).strip().lower()
-        except TypeError:
-            print("Por favor, responda apenas com s ou n.")
+        escolha = input("Deseja ver sugestões de treino e dieta? (s/n): ").strip().lower()
         if escolha == 's':
-            print("\nSugestões de treino:")
-            for treino in treinos[estado]:
-                print(f"- {treino}")
+            if estado in sugestoes:
+                print("\nSugestões para sua categoria:")
+                for item in sugestoes[estado]:
+                    print(f"- {item}")
+                    
+            else:
+                print("Não foi possível encontrar sugestões para a sua categoria.")
         elif escolha == 'n':
             print("Ok, voltando ao menu principal...")
             break
         else:
             print("Opção inválida. Digite 's' para sim ou 'n' para não.")
+
 
 def nove():
     print("Saindo do programa. Até mais!")

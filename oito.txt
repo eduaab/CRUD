@@ -1,0 +1,15 @@
+abaixo_peso:
+Treino de força: Supino, agachamento com peso leve e levantamento terra (3 séries de 12 repetições).
+Cardio leve: Caminhada moderada por 20 minutos, 3 vezes por semana.
+
+peso_normal:
+Treino funcional: Circuito com agachamentos, flexões, burpees e abdominais.
+Cardio: Corrida leve por 30 minutos, 3 vezes por semana.
+
+sobrepeso:
+Treino de queima: Caminhada rápida ou esteira por 40 minutos, 5 vezes por semana.
+Resistência: Treinos de força com elásticos e pesos leves (2 séries de 15 repetições).
+
+obesidade:
+Baixo impacto: Caminhada por 30 minutos diários, natação ou bicicleta ergométrica leve.
+Treino funcional leve: Movimentos básicos sem pesos (agachamentos assistidos, abdominais leves).
