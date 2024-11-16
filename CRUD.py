@@ -1,19 +1,18 @@
 import os
 import json
+import random
 
 arquivo_treino = "treino.json"
 
-# Função para carregar os treinos
 def carregar_treinos():
     if os.path.exists(arquivo_treino):
         with open(arquivo_treino, "r", encoding="utf-8") as file:
             try:
                 return json.load(file)
             except json.JSONDecodeError:
-                return []  # Retorna uma lista vazia se o arquivo estiver corrompido
+                return [] 
     return []
 
-# Função para salvar os treinos no arquivo
 def salvar_treinos(treinos):
     if not isinstance(treinos, list):
         print("Erro: os treinos devem ser uma lista.")
@@ -32,18 +31,23 @@ def data_formatada():
             print("Entrada inválida. Tente novamente.")
 
 def dados_treino():
-    distancia = float(input("Insira a distância percorrida (em km): "))
-    tempo = int(input("Insira o tempo total (em minutos): "))
+    try:
+        distancia = float(input("Insira a distância percorrida (em km): "))
+    except ValueError:
+        print("Insira um valor válido")
+    try:
+        tempo = int(input("Insira o tempo total (em minutos): "))
+    except TypeError:
+        print("Insira apenas números")
     localizacao = input("Insira a localização: ")
     clima = input("Insira as condições climáticas: ")
     return distancia, tempo, localizacao, clima
 
 
 
-# Arquivo para salvar as metas
+
 arquivo_metas = "metas.json"
 
-# Função para salvar metas no arquivo JSON
 def salvar_metas_json(metas):
     try:
         with open(arquivo_metas, "w", encoding="utf-8") as file:
@@ -52,7 +56,6 @@ def salvar_metas_json(metas):
     except Exception as e:
         print("Erro ao salvar metas:", e)
 
-# Função para carregar metas do arquivo JSON
 def carregar_metas_json():
     if os.path.exists(arquivo_metas):
         try:
@@ -60,14 +63,14 @@ def carregar_metas_json():
                 return json.load(file)
         except Exception as e:
             print("Erro ao carregar metas:", e)
-    return []  # Retorna uma lista vazia se o arquivo não existir ou der erro
+    return [] 
 
 def verificar_metas_atingidas(metas, treinos):
     distancia_total = sum(treino.get("distancia", 0) for treino in treinos)
     tempo_total = sum(treino.get("tempo", 0) for treino in treinos)
 
     metas_concluidas = []
-    for meta in metas[:]:  # Usa uma cópia da lista para evitar problemas ao modificar durante a iteração
+    for meta in metas[:]:
         if meta["tipo"] == "Distância" and distancia_total >= meta["valor"]:
             print(f"🎉 Parabéns! Você atingiu a meta de {meta['valor']} km!")
             metas_concluidas.append(meta)
@@ -78,7 +81,7 @@ def verificar_metas_atingidas(metas, treinos):
             metas.remove(meta)
 
     if metas_concluidas:
-        salvar_metas_json(metas)  # Atualiza a lista de metas no arquivo
+        salvar_metas_json(metas)
         print("\nAs seguintes metas foram concluídas e removidas:")
         for meta in metas_concluidas:
             print(f"- {meta['tipo']}: {meta['valor']} {meta['unidade']}")
@@ -174,10 +177,10 @@ def quatro():
 
 
 def cinco():
-    print("Saindo do programa. Até mais!")
+    pass
 
 def seis():
-    metas = carregar_metas_json()  # Carregar metas existentes do JSON
+    metas = carregar_metas_json()
 
     while True:
         print("\nMENU de Metas e Desafios:")
@@ -207,7 +210,6 @@ def seis():
                 print("Opção inválida. Tente novamente.")
                 continue
             
-            # Salvar as metas no arquivo JSON após definir
             salvar_metas_json(metas)
 
         elif opcao_metas == "2":
@@ -217,7 +219,6 @@ def seis():
                 for meta in metas:
                     print(f"{meta['tipo']}: {meta['valor']} {meta['unidade']}")
                 
-                # Progresso acumulado
                 distancia_total = sum(treino["distancia"] for treino in treinos)
                 tempo_total = sum(treino.get("tempo", 0) for treino in treinos)
                 
@@ -256,11 +257,95 @@ def seis():
         else:
             print("Opção inválida. Tente novamente.")
 
+def sete():
+    print("\nSUGESTÃO DE TREINOS ALEATÓRIOS:")
 
-# Programa principal
+    if treinos:  # Verifica se a lista de treinos não está vazia
+        treino_sugerido = random.choice(treinos)  # Escolhe um treino aleatório
+        print("\n🎲 Treino sugerido com base no seu histórico:")
+        for chave, valor in treino_sugerido.items():
+            print(f"{chave.capitalize()}: {valor}")
+    else:
+        print("Não há treinos cadastrados para sugerir. Cadastre alguns treinos primeiro.")
+
+
+def oito():
+    try:
+        peso = float(input("Digite o seu peso em Kg: "))
+        altura = float(input("Digite sua altura em metros: "))
+    except ValueError:
+        print("Entrada inváilida. Por favor, insira um número válido.")
+
+    treinos = {
+        "abaixo_peso": [
+            "Treino de força: Supino, agachamento com peso leve e levantamento terra (3 séries de 12 repetições).",
+            "Cardio leve: Caminhada moderada por 20 minutos, 3 vezes por semana."
+        ],
+        "peso_normal": [
+            "Treino funcional: Circuito com agachamentos, flexões, burpees e abdominais.",
+            "Cardio: Corrida leve por 30 minutos, 3 vezes por semana."
+        ],
+        "sobrepeso": [
+            "Treino de queima: Caminhada rápida ou esteira por 40 minutos, 5 vezes por semana.",
+            "Resistência: Treinos de força com elásticos e pesos leves (2 séries de 15 repetições)."
+        ],
+        "obesidade": [
+            "Baixo impacto: Caminhada por 30 minutos diários, natação ou bicicleta ergométrica leve.",
+            "Treino funcional leve: Movimentos básicos sem pesos (agachamentos assistidos, abdominais leves)."
+        ]
+    }
+    imc = peso/(altura**2)
+    if imc < 18.5:
+        print("Você está abaixo do peso.")
+        estado = "abaixo_peso"
+    elif 18.5 <= imc < 24.99:
+        print("Você está na classificação normal.")
+        estado = "peso_normal"
+    elif 25 <= imc < 29.99:
+        print("Você está com sobrepeso.")
+        estado = "sobrepeso"
+    elif imc >= 30:
+        print("Você está com obesidade.")
+        estado = "obesidade"
+    else:
+        print("Não conseguimos verificar seu IMC.")
+        return
+
+    with open("funcionalidade.json", "a", encoding = "utf8") as file:
+        file.write(f"Peso: {peso:.2f} Kg, Altura: {altura:.2f} m, IMC: {imc:.2f}, Estado: {estado}\n")
+
+    while True:
+        try:
+            escolha = str(input("Deseja ver sugestões de treino e dieta? (s/n): ")).strip().lower()
+        except TypeError:
+            print("Por favor, responda apenas com s ou n.")
+        if escolha == 's':
+            print("\nSugestões de treino:")
+            for treino in treinos[estado]:
+                print(f"- {treino}")
+        elif escolha == 'n':
+            print("Ok, voltando ao menu principal...")
+            break
+        else:
+            print("Opção inválida. Digite 's' para sim ou 'n' para não.")
+
+def nove():
+    print("Saindo do programa. Até mais!")
+
+
 treinos = carregar_treinos()
 
 while True:
+    print('''                                  
+    _  _  _        _  _  _  _        _            _    _  _  _  _
+ _ (_)(_)(_) _    (_)(_)(_)(_) _    (_)          (_)  (_)(_)(_)(_)
+(_)         (_)   (_)         (_)   (_)          (_)   (_)      (_)_
+(_)               (_) _  _  _ (_)   (_)          (_)   (_)        (_)
+(_)               (_)(_)(_)(_)      (_)          (_)   (_)        (_)
+(_)          _    (_)   (_) _       (_)          (_)   (_)       _(_)
+(_) _  _  _ (_)   (_)      (_) _    (_)_  _  _  _(_)   (_)_  _  (_)
+   (_)(_)(_)      (_)         (_)     (_)(_)(_)(_)    (_)(_)(_)(_)
+    ''')
     print("\nMENU:")
     print("1 -> Criar treinos.")
     print("2 -> Visualizar treinos.")
@@ -273,22 +358,25 @@ while True:
     print("9 -> Sair.")
 
     opcao = input("Escolha uma opção: ")
-    
-    if opcao == '9':
-        print("Saindo do programa. Até mais!")
-        break
-
-    elif opcao == '1':
-        um()
-
-    elif opcao == '2':
-        dois()
-
-    elif opcao == '3':
-        tres()
-
-    elif opcao == '4':
-        quatro()
-
-    elif opcao == '6':
-        seis()
+    match opcao:
+        case '1':
+            um()
+        case '2':
+            dois()
+        case '3':
+            tres()
+        case '4':
+            quatro()
+        case '5':
+            cinco()
+        case '6':
+            seis()
+        case '7':
+            sete()
+        case '8':
+            oito()
+        case '9':
+            nove()
+            break
+        case _:
+            print("Opção inválida. Tente novamente.")
