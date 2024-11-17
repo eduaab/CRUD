@@ -5,70 +5,117 @@ import random
 arquivo_treino = "treino.csv"
 
 def carregar_treinos():
-    if os.path.exists(arquivo_treino):
-        with open(arquivo_treino, "r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-            treinos = []
-            for row in reader:
-                row["distancia"] = float(row["distancia"])  # Converte para float
-                row["tempo"] = int(row["tempo"])  # Converte para inteiro
-                treinos.append(row)
-            return treinos
-    return []
+    try:
+        if os.path.exists(arquivo_treino):
+            with open(arquivo_treino, "r", encoding="utf-8") as file:
+                reader = csv.DictReader(file)
+                treinos = []
+                for row in reader:
+                    row["distancia"] = float(row["distancia"])  # Converte para float
+                    row["tempo"] = int(row["tempo"])  # Converte para inteiro
+                    treinos.append(row)
+                return treinos
+        return []
+    except (FileNotFoundError, ValueError) as e:
+        print(f"Erro ao carregar treinos: {e}")
+        return []
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        return []
 
-# Salvar treinos no arquivo CSV
+
 def salvar_treinos(treinos):
-    with open(arquivo_treino, "w", newline="", encoding="utf-8") as file:
-        fieldnames = ["nome", "data", "distancia", "tempo", "localizacao", "clima"]
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(treinos)
+    try:
+        with open(arquivo_treino, "w", newline="", encoding="utf-8") as file:
+            fieldnames = ["nome", "data", "distancia", "tempo", "localizacao", "clima"]
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(treinos)
+    except PermissionError:
+        print("Erro: Não foi possível salvar os treinos. Verifique as permissões do arquivo.")
+    except Exception as e:
+        print(f"Erro inesperado ao salvar treinos: {e}")
 
 def data_formatada():
     while True:
         try:
             dia = int(input("Insira o dia (1-31): "))
+            if dia < 1 or dia > 31:
+                print("Dia inválido. Insira um valor entre 1 e 31.")
+                continue
             mes = int(input("Insira o mês (1-12): "))
+            if mes < 1 or mes > 12:
+                print("Mês inválido. Insira um valor entre 1 e 12.")
+                continue
             ano = int(input("Insira o ano (ex: 2023): "))
+            if ano <1900:
+                print("Ano inválido. Insira um ano a partir de 1900.")
+                continue
             return f"{dia:02d}/{mes:02d}/{ano:04d}"
         except ValueError:
-            print("Entrada inválida. Tente novamente.")
+            print("Entrada inválida. Insira apenas números válidos.")
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+
 
 def dados_treino():
     while True:
         try:
             distancia = float(input("Insira a distância percorrida (em km): "))
+            if distancia < 0:
+                print("Distância inválida. Por favor digite uma distância correta.")
+                continue
             tempo = int(input("Insira o tempo total (em minutos): "))
+            if tempo < 0:
+                print("Cronometragem inválida. Digite um valor válido!")
+                continue
             break
         except ValueError:
             print("Entrada inválida. Por favor, insira números válidos.")
-    
-    localizacao = input("Insira a localização: ")
-    clima = input("Insira as condições climáticas: ")
-    return distancia, tempo, localizacao, clima
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+            return 0, 0, "N/A", "N/A"
+
+    try:
+        localizacao = str(input("Insira a localização: "))
+        clima = str(input("Insira as condições climáticas: "))
+        return distancia, tempo, localizacao, clima
+    except ValueError:
+        print(f"Digite uma localização e clima válidos.") 
+        return distancia, tempo, "N/A", "N/A"
 
 
 arquivo_metas = "metas.csv"
 
-# Salvar metas no arquivo CSV
 def salvar_metas(metas):
-    with open(arquivo_metas, "w", newline="", encoding="utf-8") as file:
-        fieldnames = ["tipo", "valor", "unidade"]
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(metas)
+    try:
+        with open(arquivo_metas, "w", newline="", encoding="utf-8") as file:
+            fieldnames = ["tipo", "valor", "unidade"]
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(metas)
+    except PermissionError:
+        print("Erro: Não foi possível salvar as metas. Verifique as permissões do arquivo.")
+    except Exception as e:
+        print(f"Erro inesperado ao salvar metas: {e}")
 
-# Carregar metas do arquivo CSV
 def carregar_metas():
-    if os.path.exists(arquivo_metas):
-        with open(arquivo_metas, "r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-            metas = []
-            for row in reader:
-                row["valor"] = float(row["valor"])  # Converte para float
-                metas.append(row)
-            return metas
-    return []
+    try:
+        if os.path.exists(arquivo_metas):
+            with open(arquivo_metas, "r", encoding="utf-8") as file:
+                reader = csv.DictReader(file)
+                metas = []
+                for row in reader:
+                    row["valor"] = float(row["valor"])
+                    metas.append(row)
+                return metas
+        return []
+    except (FileNotFoundError, ValueError) as e:
+        print(f"Erro ao carregar metas: {e}")
+        return []
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        return []
 
 def verificar_metas_atingidas(metas, treinos):
     distancia_total = sum(float(treino["distancia"]) for treino in treinos)
@@ -277,8 +324,8 @@ def seis():
 def sete():
     print("\nSUGESTÃO DE TREINOS ALEATÓRIOS:")
 
-    if treinos:  # Verifica se a lista de treinos não está vazia
-        treino_sugerido = random.choice(treinos)  # Escolhe um treino aleatório
+    if treinos:
+        treino_sugerido = random.choice(treinos)
         print("\n🎲 Treino sugerido com base no seu histórico:")
         for chave, valor in treino_sugerido.items():
             print(f"{chave.capitalize()}: {valor}")
@@ -362,49 +409,54 @@ def nove():
 
 
 treinos = carregar_treinos()
+def menu():
+    while True:
+        print('''                               
+        _  _          _                                                                                    _  _           _
+        _(_)(_)        (_)                                                                                  (_)(_)         (_)
+    _ (_) _         _  _           _       _  _       _  _  _  _       _             _      _  _  _           (_)         (_)     _
+    (_)(_)(_)       (_)(_)         (_)_  _ (_)(_)     (_)(_)(_)(_)_    (_)           (_)    (_)(_)(_) _        (_)         (_)   _(_)
+    (_)             (_)           (_)(_)          (_) _  _  _ (_)   (_)     _     (_)     _  _  _ (_)       (_)         (_) _(_)
+    (_)             (_)           (_)             (_)(_)(_)(_)(_)   (_)_  _(_)_  _(_)   _(_)(_)(_)(_)       (_)         (_)(_)_
+    (_)           _ (_) _         (_)             (_)_  _  _  _       (_)(_) (_)(_)    (_)_  _  _ (_)_    _ (_) _       (_)  (_)_
+    (_)          (_)(_)(_)        (_)               (_)(_)(_)(_)        (_)   (_)        (_)(_)(_)  (_)  (_)(_)(_)      (_)    (_)
+        ''')
+        try:
+            print("\nMENU:")
+            print("1 -> Criar treinos.")
+            print("2 -> Visualizar treinos.")
+            print("3 -> Atualizar treinos.")
+            print("4 -> Deletar treinos.")
+            print("5 -> Filtragem por Tempo ou Distância.")
+            print("6 -> Metas e Desafios.")
+            print("7 -> Sugestão de Treinos aleatórios.")
+            print("8 -> Calculo IMC + Sugestões.")
+            print("9 -> Sair.")
 
-while True:
-    print('''                                  
-    _  _  _        _  _  _  _        _            _    _  _  _  _
- _ (_)(_)(_) _    (_)(_)(_)(_) _    (_)          (_)  (_)(_)(_)(_)
-(_)         (_)   (_)         (_)   (_)          (_)   (_)      (_)_
-(_)               (_) _  _  _ (_)   (_)          (_)   (_)        (_)
-(_)               (_)(_)(_)(_)      (_)          (_)   (_)        (_)
-(_)          _    (_)   (_) _       (_)          (_)   (_)       _(_)
-(_) _  _  _ (_)   (_)      (_) _    (_)_  _  _  _(_)   (_)_  _  (_)
-   (_)(_)(_)      (_)         (_)     (_)(_)(_)(_)    (_)(_)(_)(_)
-    ''')
-    print("\nMENU:")
-    print("1 -> Criar treinos.")
-    print("2 -> Visualizar treinos.")
-    print("3 -> Atualizar treinos.")
-    print("4 -> Deletar treinos.")
-    print("5 -> Filtragem por Tempo ou Distância.")
-    print("6 -> Metas e Desafios.")
-    print("7 -> Sugestão de Treinos aleatórios.")
-    print("8 -> Calculo IMC + Sugestões.")
-    print("9 -> Sair.")
+            opcao = input("Escolha uma opção: ")
+            match opcao:
+                case '1':
+                    um()
+                case '2':
+                    dois()
+                case '3':
+                    tres()
+                case '4':
+                    quatro()
+                case '5':
+                    cinco()
+                case '6':
+                    seis()
+                case '7':
+                    sete()
+                case '8':
+                    oito()
+                case '9':
+                    nove()
+                    break
+                case _:
+                    print("Opção inválida. Tente novamente.")
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado: {e}")
 
-    opcao = input("Escolha uma opção: ")
-    match opcao:
-        case '1':
-            um()
-        case '2':
-            dois()
-        case '3':
-            tres()
-        case '4':
-            quatro()
-        case '5':
-            cinco()
-        case '6':
-            seis()
-        case '7':
-            sete()
-        case '8':
-            oito()
-        case '9':
-            nove()
-            break
-        case _:
-            print("Opção inválida. Tente novamente.")
+menu()

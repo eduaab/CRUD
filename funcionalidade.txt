@@ -1,0 +1,3 @@
+Peso: 83.00 Kg, Altura: 1.78 m, IMC: 26.20, Estado: sobrepeso
+Peso: 83.00 Kg, Altura: 1.78 m, IMC: 26.20, Estado: sobrepeso
+Peso: 100.00 Kg, Altura: 1.90 m, IMC: 27.70, Estado: sobrepeso
