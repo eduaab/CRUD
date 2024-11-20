@@ -241,7 +241,7 @@ def quatro():
 
 
 def cinco():
-    treinos_filtrados = []
+
     if not treinos:
         print("Nenhum treino registrado")
 
@@ -249,9 +249,11 @@ def cinco():
     print("1 -> Filtragem por tempo")
     print("2 -> Filtragem por distância")
     opcao_filtro = input("Insira a opção: ")
-
+    treinos_filtrados = []
+    
     while True:
         try:
+            
             if opcao_filtro == "1":
                 temp_max = float(input("Insira o tempo máximo: "))
                 temp_min = float(input("Insira o tempo mínimo: "))
@@ -259,6 +261,7 @@ def cinco():
                 for treino in treinos:
                     if temp_min <= treino['tempo'] <= temp_max:
                         treinos_filtrados.append(treino)
+                    
 
                 if treinos_filtrados:
                     print("Treinos filtrados por tempo:\n")
@@ -268,7 +271,7 @@ def cinco():
                             print(f"{key.capitalize()}: {value}")
                         print("------")
                         print("\n")
-                        break
+                    break
                 else:
                     print("Nenhum treino encontrado nesse intervalo")
 
@@ -286,18 +289,19 @@ def cinco():
                     for treino in treinos_filtrados:
                         for key, value in treino.items():
                             print(f"{key.capitalize()}: {value}") 
-                    print("------")
-                    print("\n")
+                        print("------")
+                        print("\n")
                     break
+
                 else:
-                    print("Nenhum treino encontrado nesse intervalo")
+                    print("Nenhum treino encontrado nesse intervalo.")
                     break
             else:
-                print("Opção inválida")
+                print("Opção inválida, tente novamente.")
                 continue
 
         except ValueError:
-            print("Insira uma entrada válida")
+            print("Insira uma entrada válida.")
             continue
 
 def seis():
