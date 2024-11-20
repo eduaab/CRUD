@@ -63,7 +63,7 @@ def dados_treino():
         try:
             distancia = float(input("Insira a distância percorrida (em km): "))
             if distancia < 0:
-                print("Distância inválida. Por favor digite uma distância correta.")
+                print("Distância inválida. Por favor digite uma distância válida.")
                 continue
             tempo = int(input("Insira o tempo total (em minutos): "))
             if tempo < 0:
@@ -139,7 +139,7 @@ def verificar_metas_atingidas(metas, treinos):
         for meta in metas_concluidas:
             print(f"- {meta['tipo']}: {meta['valor']} {meta['unidade']}")
     else:
-        print("Nenhuma meta foi concluída ainda. Continue assim!")
+        print("Nenhuma meta foi concluída ainda. Continue tentando!")
 
 
 
@@ -184,7 +184,7 @@ def dois():
 def tres():
     print("\nTreinos disponíveis:")
     if not treinos:
-        print("Nenhum treino para atualizar.")
+        print("Nenhum treino disponível.")
         return
 
     for i, treino in enumerate(treinos, 1):
@@ -232,7 +232,7 @@ def quatro():
         if 0 <= indice < len(treinos):
             treino_removido = treinos.pop(indice)
             salvar_treinos(treinos)
-            print(f"Treino '{treino_removido['nome']}' foi deletado com sucesso.")
+            print(f"Treino '{treino_removido['nome']}' deletado com sucesso.")
         else:
             print("Número inválido.")
     except ValueError:
@@ -263,6 +263,7 @@ def cinco():
 
             if treinos_filtrados:
                 print("Treinos filtrados por tempo:\n")
+                print("------")
                 for treino in treinos_filtrados:
                     for key, value in treino.items():
                         print(f"{key.capitalize()}: {value}") 
@@ -283,10 +284,11 @@ def cinco():
 
             if treinos_filtrados:
                 print("Treinos filtrados por distância:\n")
+                print("------")
                 for treino in treinos_filtrados:
                     for key, value in treino.items():
                         print(f"{key.capitalize()}: {value}") 
-                print("------")
+                print("------\n")
             else:
                 print("Nenhum treino encontrado nesse intervalo")
         else:
