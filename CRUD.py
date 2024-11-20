@@ -142,8 +142,6 @@ def verificar_metas_atingidas(metas, treinos):
         print("Nenhuma meta foi concluída ainda. Continue tentando!")
 
 
-
-
 def um():
     treino = input("Digite o nome do treino que deseja criar: ")
     adicionar_info = input("Deseja adicionar informações detalhadas sobre o treino? (s/n): ").strip().lower()
@@ -241,20 +239,26 @@ def quatro():
 
 
 def cinco():
-
+    treinos_filtrados = []
     if not treinos:
         print("Nenhum treino registrado")
-
+  
     print("Escolha uma opção de filtro:")
     print("1 -> Filtragem por tempo")
     print("2 -> Filtragem por distância")
-    opcao_filtro = input("Insira a opção: ")
-    treinos_filtrados = []
+    while True:
+        opcao_filtro = input("Insira a opção: ").strip()
+        if opcao_filtro != "1" and opcao_filtro != "2":
+            print("Insira uma opção válida")
+        
+        else:
+            break
     
     while True:
         try:
             
             if opcao_filtro == "1":
+                print("\n")
                 temp_max = float(input("Insira o tempo máximo: "))
                 temp_min = float(input("Insira o tempo mínimo: "))
 
@@ -264,8 +268,13 @@ def cinco():
                     
 
                 if treinos_filtrados:
-                    print("Treinos filtrados por tempo:\n")
-                    print("------")
+                    print("\n")
+                    print("╒═══════════════════════════╕")
+                    print("Treinos filtrados por tempo:")
+                    print("╘═══════════════════════════╛")
+                    print("\n")
+                    
+                    
                     for treino in treinos_filtrados:
                         for key, value in treino.items():
                             print(f"{key.capitalize()}: {value}")
@@ -276,6 +285,7 @@ def cinco():
                     print("Nenhum treino encontrado nesse intervalo")
 
             elif opcao_filtro == "2":
+                print("\n")
                 dist_max = float(input("Insira a distância máxima: "))
                 dist_min = float(input("Insira a distância mínima: "))
 
@@ -284,8 +294,11 @@ def cinco():
                         treinos_filtrados.append(treino)
 
                 if treinos_filtrados:
-                    print("Treinos filtrados por distância:\n")
-                    print("------")
+                    print("\n")
+                    print("╒═══════════════════════════╕")
+                    print("Treinos filtrados por tempo:")
+                    print("╘═══════════════════════════╛")
+                    
                     for treino in treinos_filtrados:
                         for key, value in treino.items():
                             print(f"{key.capitalize()}: {value}") 
@@ -296,9 +309,8 @@ def cinco():
                 else:
                     print("Nenhum treino encontrado nesse intervalo.")
                     break
-            else:
-                print("Opção inválida, tente novamente.")
-                continue
+                
+                
 
         except ValueError:
             print("Insira uma entrada válida.")
@@ -384,7 +396,12 @@ def seis():
             print("Opção inválida. Tente novamente.")
 
 def sete():
-    print("\nSUGESTÃO DE TREINOS ALEATÓRIOS:")
+    print("\n")
+    print("╒═════════════════════════════════╕")
+    print("  SUGESTÃO DE TREINOS ALEATÓRIOS ")
+    print("╘═════════════════════════════════╛")
+    print("\n")
+
 
     if treinos:
         treino_sugerido = random.choice(treinos)
@@ -473,15 +490,15 @@ def nove():
 treinos = carregar_treinos()
 def menu():
     while True:
-        print('''                               
-        _  _          _                                                                                    _  _           _
-        _(_)(_)        (_)                                                                                  (_)(_)         (_)
-    _ (_) _         _  _           _       _  _       _  _  _  _       _             _      _  _  _           (_)         (_)     _
-    (_)(_)(_)       (_)(_)         (_)_  _ (_)(_)     (_)(_)(_)(_)_    (_)           (_)    (_)(_)(_) _        (_)         (_)   _(_)
-    (_)             (_)           (_)(_)          (_) _  _  _ (_)   (_)     _     (_)     _  _  _ (_)       (_)         (_) _(_)
-    (_)             (_)           (_)             (_)(_)(_)(_)(_)   (_)_  _(_)_  _(_)   _(_)(_)(_)(_)       (_)         (_)(_)_
-    (_)           _ (_) _         (_)             (_)_  _  _  _       (_)(_) (_)(_)    (_)_  _  _ (_)_    _ (_) _       (_)  (_)_
-    (_)          (_)(_)(_)        (_)               (_)(_)(_)(_)        (_)   (_)        (_)(_)(_)  (_)  (_)(_)(_)      (_)    (_)
+        print('''
+
+███████╗██╗██████╗░███████╗░██╗░░░░░░░██╗░█████╗░██╗░░░░░██╗░░██╗
+██╔════╝██║██╔══██╗██╔════╝░██║░░██╗░░██║██╔══██╗██║░░░░░██║░██╔╝
+█████╗░░██║██████╔╝█████╗░░░╚██╗████╗██╔╝███████║██║░░░░░█████═╝░
+██╔══╝░░██║██╔══██╗██╔══╝░░░░████╔═████║░██╔══██║██║░░░░░██╔═██╗░
+██║░░░░░██║██║░░██║███████╗░░╚██╔╝░╚██╔╝░██║░░██║███████╗██║░╚██╗
+╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
+
         ''')
         try:
             print("\nMENU:")
