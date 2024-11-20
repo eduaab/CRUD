@@ -39,15 +39,15 @@ def salvar_treinos(treinos):
 def data_formatada():
     while True:
         try:
-            dia = int(input("Insira o dia (1-31): "))
+            dia = int(input("Insira o dia (1-31): ")).strip()
             if dia < 1 or dia > 31:
                 print("Dia inválido. Insira um valor entre 1 e 31.")
                 continue
-            mes = int(input("Insira o mês (1-12): "))
+            mes = int(input("Insira o mês (1-12): ")).strip()
             if mes < 1 or mes > 12:
                 print("Mês inválido. Insira um valor entre 1 e 12.")
                 continue
-            ano = int(input("Insira o ano (ex: 2023): "))
+            ano = int(input("Insira o ano (ex: 2023): ")).strip()
             if ano <1900:
                 print("Ano inválido. Insira um ano a partir de 1900.")
                 continue
@@ -61,11 +61,11 @@ def data_formatada():
 def dados_treino():
     while True:
         try:
-            distancia = float(input("Insira a distância percorrida (em km): "))
+            distancia = float(input("Insira a distância percorrida (em km): ")).strip()
             if distancia < 0:
                 print("Distância inválida. Por favor digite uma distância correta.")
                 continue
-            tempo = int(input("Insira o tempo total (em minutos): "))
+            tempo = int(input("Insira o tempo total (em minutos): ")).strip()
             if tempo < 0:
                 print("Cronometragem inválida. Digite um valor válido!")
                 continue
@@ -77,8 +77,8 @@ def dados_treino():
             return 0, 0, "N/A", "N/A"
 
     try:
-        localizacao = str(input("Insira a localização: "))
-        clima = str(input("Insira as condições climáticas: "))
+        localizacao = str(input("Insira a localização: ")).strip()
+        clima = str(input("Insira as condições climáticas: ")).strip()
         return distancia, tempo, localizacao, clima
     except ValueError:
         print(f"Digite uma localização e clima válidos.") 
@@ -143,7 +143,7 @@ def verificar_metas_atingidas(metas, treinos):
 
 
 def um():
-    treino = input("Digite o nome do treino que deseja criar: ")
+    treino = input("Digite o nome do treino que deseja criar: ").strip()
     adicionar_info = input("Deseja adicionar informações detalhadas sobre o treino? (s/n): ").strip().lower()
 
     if adicionar_info == 's':
@@ -189,22 +189,22 @@ def tres():
         print(f"{i} -> {treino['nome']}")
 
     try:
-        indice = int(input("Escolha o número do treino que deseja atualizar: ")) - 1
+        indice = int(input("Escolha o número do treino que deseja atualizar: ")).strip() - 1
         if 0 <= indice < len(treinos):
             escolha_modificacao = int(input(
                 "O que você deseja atualizar?\n"
                 "1. Nome\n2. Data\n3. Distância\n4. Localização\n5. Clima\nEscolha uma opção: "
-            ))
+            )).strip()
             if escolha_modificacao == 1:
-                treinos[indice]["nome"] = input("Digite o novo nome do treino: ")
+                treinos[indice]["nome"] = input("Digite o novo nome do treino: ").strip()
             elif escolha_modificacao == 2:
                 treinos[indice]["data"] = data_formatada()
             elif escolha_modificacao == 3:
-                treinos[indice]["distancia"] = float(input("Digite a nova distância do treino (em km): "))
+                treinos[indice]["distancia"] = float(input("Digite a nova distância do treino (em km): ")).strip()
             elif escolha_modificacao == 4:
-                treinos[indice]["localizacao"] = input("Digite a nova localização do treino: ")
+                treinos[indice]["localizacao"] = input("Digite a nova localização do treino: ").strip()
             elif escolha_modificacao == 5:
-                treinos[indice]["clima"] = input("Digite as novas condições climáticas do treino: ")
+                treinos[indice]["clima"] = input("Digite as novas condições climáticas do treino: ").strip()
             else:
                 print("Opção inválida.")
                 return
@@ -226,7 +226,7 @@ def quatro():
         print(f"{i} -> {treino['nome']}")
 
     try:
-        indice = int(input("Escolha o número do treino que deseja deletar: ")) - 1
+        indice = int(input("Escolha o número do treino que deseja deletar: ")).strip() - 1
         if 0 <= indice < len(treinos):
             treino_removido = treinos.pop(indice)
             salvar_treinos(treinos)
@@ -259,8 +259,8 @@ def cinco():
             
             if opcao_filtro == "1":
                 print("\n")
-                temp_max = float(input("Insira o tempo máximo: "))
-                temp_min = float(input("Insira o tempo mínimo: "))
+                temp_max = float(input("Insira o tempo máximo: ")).strip()
+                temp_min = float(input("Insira o tempo mínimo: ")).strip()
 
                 for treino in treinos:
                     if temp_min <= treino['tempo'] <= temp_max:
@@ -286,8 +286,8 @@ def cinco():
 
             elif opcao_filtro == "2":
                 print("\n")
-                dist_max = float(input("Insira a distância máxima: "))
-                dist_min = float(input("Insira a distância mínima: "))
+                dist_max = float(input("Insira a distância máxima: ")).strip()
+                dist_min = float(input("Insira a distância mínima: ")).strip()
 
                 for treino in treinos:
                     if dist_min <= treino['distancia'] <= dist_max:
@@ -331,15 +331,15 @@ def seis():
         if opcao_metas == "1":
             print("1 -> Meta de distância total em (km)")
             print("2 -> Meta de tempo total em (minutos)")
-            tipo_de_meta = input("Escolha uma opção: ")
+            tipo_de_meta = input("Escolha uma opção: ").strip()
 
             if tipo_de_meta == "1":
-                distancia = float(input("Insira a meta de distância total (em km): "))
+                distancia = float(input("Insira a meta de distância total (em km): ")).strip()
                 metas.append({"tipo": "Distância", "valor": distancia, "unidade": "km"})
                 print(f"Meta de distância definida: {distancia} km.")
 
             elif tipo_de_meta == "2":
-                tempo = float(input("Insira a meta de tempo total (em minutos): "))
+                tempo = float(input("Insira a meta de tempo total (em minutos): ")).strip()
                 metas.append({"tipo": "Tempo", "valor": tempo, "unidade": "minutos"})
                 print(f"Meta de tempo definida: {tempo} minutos.")
 
@@ -432,8 +432,8 @@ def dieta():
 
 def oito():
     try:
-        peso = float(input("Digite o seu peso em Kg: "))
-        altura = float(input("Digite sua altura em metros: "))
+        peso = float(input("Digite o seu peso em Kg: ")).strip()
+        altura = float(input("Digite sua altura em metros: ")).strip()
     except ValueError:
         print("Entrada inválida. Por favor, insira um número válido.")
         return
