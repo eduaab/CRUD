@@ -240,7 +240,60 @@ def quatro():
 
 
 def cinco():
-    pass
+    treinos_filtrados = []
+    if not treinos:
+        print("Nenhum treino registrado")
+
+    print("Escolha uma opção de filtro:")
+    print("1 -> Filtragem por tempo")
+    print("2 -> Filtragem por distância")
+    opcao_filtro = input("Insira a opção: ")
+
+    try:
+        if opcao_filtro == "1":
+            temp_max = float(input("Insira o tempo máximo: "))
+            temp_min = float(input("Insira o tempo mínimo: "))
+
+            treinos_filtrados.clear()
+
+            for treino in treinos:
+                if temp_min <= treino['tempo'] <= temp_max:
+                    treinos_filtrados.append(treino)
+
+
+            if treinos_filtrados:
+                print("Treinos filtrados por tempo:\n")
+                for treino in treinos_filtrados:
+                    for key, value in treino.items():
+                        print(f"{key.capitalize()}: {value}") 
+                print("------\n")
+            
+            else:
+                print("Nenhum treino encontrado nesse intervalo")
+
+        elif opcao_filtro == "2":
+            dist_max = float(input("Insira a distância máxima: "))
+            dist_min = float(input("Insira a distância mínima: "))
+
+            treinos_filtrados.clear()
+
+            for treino in treinos:
+                if dist_min <= treino['distancia'] <= dist_max:
+                    treinos_filtrados.append(treino)
+
+            if treinos_filtrados:
+                print("Treinos filtrados por distância:\n")
+                for treino in treinos_filtrados:
+                    for key, value in treino.items():
+                        print(f"{key.capitalize()}: {value}") 
+                print("------")
+            else:
+                print("Nenhum treino encontrado nesse intervalo")
+        else:
+            print("Opção inválida")
+
+    except ValueError:
+        print("Insira uma entrada válida")
 
 def seis():
     metas = carregar_metas()
