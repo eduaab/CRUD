@@ -11,8 +11,8 @@ def carregar_treinos():
                 reader = csv.DictReader(file)
                 treinos = []
                 for row in reader:
-                    row["distancia"] = float(row["distancia"])  # Converte para float
-                    row["tempo"] = int(row["tempo"])  # Converte para inteiro
+                    row["distancia"] = float(row["distancia"]) 
+                    row["tempo"] = int(row["tempo"])  
                     treinos.append(row)
                 return treinos
         return []
@@ -63,7 +63,7 @@ def dados_treino():
         try:
             distancia = float(input("Insira a distância percorrida (em km): "))
             if distancia < 0:
-                print("Distância inválida. Por favor digite uma distância válida.")
+                print("Distância inválida. Por favor digite uma distância correta.")
                 continue
             tempo = int(input("Insira o tempo total (em minutos): "))
             if tempo < 0:
@@ -235,6 +235,7 @@ def quatro():
             print(f"Treino '{treino_removido['nome']}' deletado com sucesso.")
         else:
             print("Número inválido.")
+
     except ValueError:
         print("Entrada inválida. Por favor, insira um número válido.")
 
@@ -249,53 +250,55 @@ def cinco():
     print("2 -> Filtragem por distância")
     opcao_filtro = input("Insira a opção: ")
 
-    try:
-        if opcao_filtro == "1":
-            temp_max = float(input("Insira o tempo máximo: "))
-            temp_min = float(input("Insira o tempo mínimo: "))
+    while True:
+        try:
+            if opcao_filtro == "1":
+                temp_max = float(input("Insira o tempo máximo: "))
+                temp_min = float(input("Insira o tempo mínimo: "))
 
-            treinos_filtrados.clear()
+                for treino in treinos:
+                    if temp_min <= treino['tempo'] <= temp_max:
+                        treinos_filtrados.append(treino)
 
-            for treino in treinos:
-                if temp_min <= treino['tempo'] <= temp_max:
-                    treinos_filtrados.append(treino)
+                if treinos_filtrados:
+                    print("Treinos filtrados por tempo:\n")
+                    print("------")
+                    for treino in treinos_filtrados:
+                        for key, value in treino.items():
+                            print(f"{key.capitalize()}: {value}")
+                        print("------")
+                        print("\n")
+                        break
+                else:
+                    print("Nenhum treino encontrado nesse intervalo")
 
+            elif opcao_filtro == "2":
+                dist_max = float(input("Insira a distância máxima: "))
+                dist_min = float(input("Insira a distância mínima: "))
 
-            if treinos_filtrados:
-                print("Treinos filtrados por tempo:\n")
-                print("------")
-                for treino in treinos_filtrados:
-                    for key, value in treino.items():
-                        print(f"{key.capitalize()}: {value}") 
-                print("------\n")
-            
+                for treino in treinos:
+                    if dist_min <= treino['distancia'] <= dist_max:
+                        treinos_filtrados.append(treino)
+
+                if treinos_filtrados:
+                    print("Treinos filtrados por distância:\n")
+                    print("------")
+                    for treino in treinos_filtrados:
+                        for key, value in treino.items():
+                            print(f"{key.capitalize()}: {value}") 
+                    print("------")
+                    print("\n")
+                    break
+                else:
+                    print("Nenhum treino encontrado nesse intervalo")
+                    break
             else:
-                print("Nenhum treino encontrado nesse intervalo")
+                print("Opção inválida")
+                continue
 
-        elif opcao_filtro == "2":
-            dist_max = float(input("Insira a distância máxima: "))
-            dist_min = float(input("Insira a distância mínima: "))
-
-            treinos_filtrados.clear()
-
-            for treino in treinos:
-                if dist_min <= treino['distancia'] <= dist_max:
-                    treinos_filtrados.append(treino)
-
-            if treinos_filtrados:
-                print("Treinos filtrados por distância:\n")
-                print("------")
-                for treino in treinos_filtrados:
-                    for key, value in treino.items():
-                        print(f"{key.capitalize()}: {value}") 
-                print("------\n")
-            else:
-                print("Nenhum treino encontrado nesse intervalo")
-        else:
-            print("Opção inválida")
-
-    except ValueError:
-        print("Insira uma entrada válida")
+        except ValueError:
+            print("Insira uma entrada válida")
+            continue
 
 def seis():
     metas = carregar_metas()
