@@ -90,7 +90,7 @@ Ao escolher a opção 9, O sistema pede ao usuário informações como peso e al
 
 | Nome | Turma | Email institucional|
 |------|-------|------------|
-|Augusto Malheiros| A | ams@cesar.school|
+|Augusto Malheiros| A | ams10@cesar.school|
 |Brenda Luana| A | blcb@cesar.school|
 |Eduardo Albuquerque| A | eaab@cesar.school|
 |Heloísa Barros| A | hbbs@cesar.school|
