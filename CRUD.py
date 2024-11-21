@@ -329,17 +329,23 @@ def seis():
     metas = carregar_metas()
 
     while True:
-        print("\nMENU de Metas e Desafios:")
-        print("1 -> Definir Metas")
-        print("2 -> Visualizar Metas")
-        print("3 -> Excluir Meta")
-        print("4 -> Voltar para o MENU principal")
+        print("""
+        ╔══❀•°❀°•❀ ❀•°❀°•❀ ❀•°❀°•❀══╗
+        -Menu de metas e desafios:
+        1-> Definir metas
+        2-> Visualizar metas
+        3-> Excluir meta
+        4-> Voltar para o menu principal
+        ╚══ ❀•°❀°•❀❀•°❀°•❀ ❀•°❀°•❀ ══╝
+        """)
 
         opcao_metas = input("Escolha uma opção: \n")
 
         if opcao_metas == "1":
-            print("1 -> Meta de distância total em (km)")
-            print("2 -> Meta de tempo total em (minutos)")
+            print("""
+            1-> Meta de distância total em (km)
+            2-> Meta de tempo total em (minutos)
+            """)
             tipo_de_meta = input("Escolha uma opção: ").strip()
 
             if tipo_de_meta == "1":
@@ -510,16 +516,20 @@ def menu():
 
         ''')
         try:
-            print("\nMENU:")
-            print("1 -> Criar treinos.")
-            print("2 -> Visualizar treinos.")
-            print("3 -> Atualizar treinos.")
-            print("4 -> Deletar treinos.")
-            print("5 -> Filtragem por Tempo ou Distância.")
-            print("6 -> Metas e Desafios.")
-            print("7 -> Sugestão de Treinos aleatórios.")
-            print("8 -> Calculo IMC + Sugestões.")
-            print("9 -> Sair.")
+            print("""
+          ╔══ ❀•°❀°•❀ ❀•°❀°•❀ ❀•°❀°•❀ ❀•°❀°•❀══╗
+            Menu:
+            1-> Criar treinos
+            2-> Visualizar treinos
+            3-> Atualizar treinos
+            4-> Deletar treinos
+            5-> Filtragem por tempo ou distância
+            6-> Metas e desafios
+            7-> Sugestão de treinos aleatórios
+            8-> Cálculo de IMC + Sugestões
+            9-> Sair
+          ╚══ ❀•°❀°•❀ ❀•°❀°•❀ ❀•°❀°•❀ ❀•°❀°•❀ ══╝
+        """)
 
             opcao = input("Escolha uma opção: ")
             match opcao:
