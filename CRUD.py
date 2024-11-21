@@ -19,8 +19,8 @@ def carregar_treinos():
     except (FileNotFoundError, ValueError) as e:
         print(f"Erro ao carregar treinos: {e}")
         return []
-    except Exception as e:
-        print(f"Erro inesperado: {e}")
+    except Exception:
+        print(f"Erro inesperado.")
         return []
 
 
@@ -33,8 +33,8 @@ def salvar_treinos(treinos):
             writer.writerows(treinos)
     except PermissionError:
         print("Erro: Não foi possível salvar os treinos. Verifique as permissões do arquivo.")
-    except Exception as e:
-        print(f"Erro inesperado ao salvar treinos: {e}")
+    except Exception:
+        print(f"Erro inesperado ao salvar treinos.")
 
 def data_formatada():
     while True:
@@ -54,8 +54,8 @@ def data_formatada():
             return f"{dia:02d}/{mes:02d}/{ano:04d}"
         except ValueError:
             print("Entrada inválida. Insira apenas números válidos.")
-        except Exception as e:
-            print(f"Erro inesperado: {e}")
+        except Exception:
+            print(f"Erro inesperado.")
 
 
 def dados_treino():
@@ -72,8 +72,8 @@ def dados_treino():
             break
         except ValueError:
             print("Entrada inválida. Por favor, insira números válidos.")
-        except Exception as e:
-            print(f"Erro inesperado: {e}")
+        except Exception:
+            print(f"Erro inesperado.")
             return 0, 0, "N/A", "N/A"
 
     try:
@@ -96,8 +96,8 @@ def salvar_metas(metas):
             writer.writerows(metas)
     except PermissionError:
         print("Erro: Não foi possível salvar as metas. Verifique as permissões do arquivo.")
-    except Exception as e:
-        print(f"Erro inesperado ao salvar metas: {e}")
+    except Exception:
+        print(f"Erro inesperado ao salvar metas.")
 
 def carregar_metas():
     try:
@@ -114,70 +114,79 @@ def carregar_metas():
         print(f"Erro ao carregar metas: {e}")
         return []
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print("Erro inesperado.")
         return []
 
 def verificar_metas_atingidas(metas, treinos):
-    distancia_total = sum(float(treino["distancia"]) for treino in treinos)
-    tempo_total = sum(int(treino["tempo"]) for treino in treinos)
+    try:
+        distancia_total = sum(float(treino["distancia"]) for treino in treinos)
+        tempo_total = sum(int(treino["tempo"]) for treino in treinos)
 
 
-    metas_concluidas = []
-    for meta in metas[:]:
-        if meta["tipo"] == "Distância" and distancia_total >= meta["valor"]:
-            print(f"🎉 Parabéns! Você atingiu a meta de {meta['valor']} km!")
-            metas_concluidas.append(meta)
-            metas.remove(meta)
-        elif meta["tipo"] == "Tempo" and tempo_total >= meta["valor"]:
-            print(f"🎉 Parabéns! Você atingiu a meta de {meta['valor']} minutos!")
-            metas_concluidas.append(meta)
-            metas.remove(meta)
+        metas_concluidas = []
+        for meta in metas[:]:
+            if meta["tipo"] == "Distância" and distancia_total >= meta["valor"]:
+                print(f"🎉 Parabéns! Você atingiu a meta de {meta['valor']} km!")
+                metas_concluidas.append(meta)
+                metas.remove(meta)
+            elif meta["tipo"] == "Tempo" and tempo_total >= meta["valor"]:
+                print(f"🎉 Parabéns! Você atingiu a meta de {meta['valor']} minutos!")
+                metas_concluidas.append(meta)
+                metas.remove(meta)
 
-    if metas_concluidas:
-        salvar_metas(metas)
-        print("\nAs seguintes metas foram concluídas e removidas:")
-        for meta in metas_concluidas:
-            print(f"- {meta['tipo']}: {meta['valor']} {meta['unidade']}")
-    else:
-        print("Nenhuma meta foi concluída ainda. Continue tentando!")
+        if metas_concluidas:
+            salvar_metas(metas)
+            print("\nAs seguintes metas foram concluídas e removidas:")
+            for meta in metas_concluidas:
+                print(f"- {meta['tipo']}: {meta['valor']} {meta['unidade']}")
+        else:
+            print("Nenhuma meta foi concluída ainda. Continue tentando!")
+    except Exception:
+        print('Erro inesperado.')
 
 
 def um():
-    treino = input("Digite o nome do treino que deseja criar: ").strip()
-    adicionar_info = input("Deseja adicionar informações detalhadas sobre o treino? (s/n): ").strip().lower()
+    try:
+        treino = input("Digite o nome do treino que deseja criar: ").strip()
+        adicionar_info = input("Deseja adicionar informações detalhadas sobre o treino? (s/n): ").strip().lower()
 
-    if adicionar_info == 's':
-        data = data_formatada()
-        distancia, tempo, localizacao, clima = dados_treino()
-        treinos.append({
-            "nome": treino,
-            "data": data,
-            "distancia": distancia,
-            "tempo": tempo,
-            "localizacao": localizacao,
-            "clima": clima
-        })
-    else:
-        treinos.append({
-            "nome": treino,
-            "data": "N/A",
-            "distancia": 0,
-            "tempo": 0,
-            "localizacao": "N/A",
-            "clima": "N/A"
-        })
-    salvar_treinos(treinos)
-    print("Treino salvo com sucesso.")
+        if adicionar_info == 's':
+            data = data_formatada()
+            distancia, tempo, localizacao, clima = dados_treino()
+            treinos.append({
+                "nome": treino,
+                "data": data,
+                "distancia": distancia,
+                "tempo": tempo,
+                "localizacao": localizacao,
+                "clima": clima
+            })
+        else:
+            treinos.append({
+                "nome": treino,
+                "data": "N/A",
+                "distancia": 0,
+                "tempo": 0,
+                "localizacao": "N/A",
+                "clima": "N/A"
+            })
+        salvar_treinos(treinos)
+        print("Treino salvo com sucesso.")
+    except Exception:
+        print('Erro inesperado.')
 
 def dois():
-    if len(treinos) == 0:
-        print("Não há treinos cadastrados.")
-    else:
-        print("\nTreinos cadastrados:")
-        for i, treino in enumerate(treinos, 1):
-            print(f"\nTreino {i}:")
-            for chave, valor in treino.items():
-                print(f"{chave.capitalize()}: {valor}")
+    try:
+        if len(treinos) == 0:
+            print("Não há treinos cadastrados.")
+        else:
+            print("\nTreinos cadastrados:")
+            for i, treino in enumerate(treinos, 1):
+                print(f"\nTreino {i}:")
+                for chave, valor in treino.items():
+                    print(f"{chave.capitalize()}: {valor}")
+    except Exception:
+        print('Erro inesperado.')
 
 def tres():
     print("\nTreinos disponíveis:")
@@ -426,8 +435,8 @@ def dieta():
     except FileNotFoundError:
         print("Erro: O arquivo 'oito.txt' não foi encontrado.")
         return {}
-    except Exception as e:
-        print(f"Erro ao carregar as sugestões: {e}")
+    except Exception:
+        print(f"Erro ao carregar as sugestões.")
         return {}
 
 def oito():
@@ -535,7 +544,7 @@ def menu():
                     break
                 case _:
                     print("Opção inválida. Tente novamente.")
-        except Exception as e:
-            print(f"Ocorreu um erro inesperado: {e}")
+        except Exception:
+            print(f"Ocorreu um erro inesperado.")
 
 menu()
